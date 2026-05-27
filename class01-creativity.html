@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class 01 · 창의력 강연 · 워크숍 — 최유나</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;700&family=Gaegu:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg:        #FCFCFA;
+    --paper:     #FFFFFF;
+    --ink:       #111111;
+    --ink-2:     #2A2A2A;
+    --ink-3:     #545454;
+    --mute:      #8E8E8E;
+    --line:      #E5E5E2;
+    --grid:      #E8E8E5;
+    --accent:    #5DBFB8;
+    --accent-d:  #2F8A85;
+    --highlight: #FFE45C;   /* 형광펜 노란색 */
+    --ink-soft-bg: #F4F4F1;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Pretendard', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.7;
+    letter-spacing: -0.01em;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    /* 그리드 노트 배경 */
+    background-image:
+      linear-gradient(to right, rgba(0,0,0,0.025) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0,0,0,0.025) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .hand { font-family: 'Gaegu', 'Caveat', cursive; }
+  .latin-hand { font-family: 'Caveat', cursive; }
+
+  /* ─── Top Nav ─── */
+  nav.topbar {
+    position: fixed; inset: 0 0 auto 0;
+    padding: 18px 44px;
+    display: flex; justify-content: space-between; align-items: center;
+    z-index: 100;
+    backdrop-filter: blur(14px);
+    background: rgba(252,252,250,0.85);
+    border-bottom: 1px solid transparent;
+    transition: border-color .3s ease;
+  }
+  nav.topbar.scrolled { border-bottom-color: var(--line); }
+  nav .crumb { font-size: 13px; color: var(--ink-3); font-weight: 500; }
+  nav .crumb b { color: var(--ink); font-weight: 700; }
+  nav .lecturer { font-size: 13px; color: var(--ink); font-weight: 600; letter-spacing: 0.02em; }
+
+  /* ─── HERO ─── */
+  .hero {
+    padding: 130px 44px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-inner {
+    max-width: 1240px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 50px;
+    align-items: center;
+    position: relative;
+  }
+  .hero-label {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; font-weight: 600;
+    color: var(--ink); margin-bottom: 28px;
+    padding: 8px 16px;
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    background: var(--paper);
+  }
+  .hero-label .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent);
+  }
+  .hero h1 {
+    font-size: clamp(38px, 5.2vw, 64px);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.035em;
+    margin-bottom: 32px;
+    position: relative;
+  }
+  .hero h1 .highlight {
+    background: linear-gradient(transparent 60%, var(--highlight) 60%);
+    padding: 0 4px;
+  }
+  .hero h1 .hand-note {
+    position: absolute;
+    font-family: 'Caveat', cursive;
+    font-size: 24px; font-weight: 500;
+    color: var(--accent-d);
+    transform: rotate(-6deg);
+    right: -10px; top: -30px;
+  }
+  .hero h1 .hand-note::before {
+    content: '';
+    position: absolute;
+    bottom: -18px; left: 30%;
+    width: 30px; height: 30px;
+    border-left: 1.5px solid var(--accent-d);
+    border-bottom: 1.5px solid var(--accent-d);
+    border-bottom-left-radius: 50%;
+    transform: rotate(20deg);
+  }
+  .hero-sub {
+    font-size: 17px;
+    color: var(--ink-2);
+    line-height: 1.85;
+    max-width: 520px;
+    margin-bottom: 36px;
+  }
+  .hero-meta {
+    display: flex; gap: 32px;
+    padding-top: 28px;
+    border-top: 1px dashed var(--line);
+  }
+  .hero-meta-item {
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .hero-meta-item .v {
+    font-size: 28px; font-weight: 800;
+    color: var(--ink); letter-spacing: -0.02em;
+  }
+  .hero-meta-item .v .unit { font-size: 16px; color: var(--mute); margin-left: 2px; }
+  .hero-meta-item .l {
+    font-size: 12px; color: var(--mute); font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+
+  /* Hero illustration card */
+  .hero-illust {
+    position: relative;
+    padding: 32px;
+    background: var(--paper);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.04);
+    transform: rotate(1.2deg);
+    /* Sketch paper grid */
+    background-image:
+      linear-gradient(to right, rgba(93,191,184,0.08) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(93,191,184,0.08) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+  .hero-illust::before {
+    content: 'IDEA SKETCH';
+    position: absolute;
+    top: 14px; left: 20px;
+    font-family: 'Caveat', cursive;
+    font-size: 16px;
+    color: var(--accent-d);
+    letter-spacing: 0.05em;
+  }
+  .hero-illust::after {
+    content: 'No.01';
+    position: absolute;
+    top: 14px; right: 20px;
+    font-family: 'Caveat', cursive;
+    font-size: 16px;
+    color: var(--mute);
+  }
+  .hero-illust svg {
+    width: 100%; height: auto;
+    margin-top: 12px;
+    display: block;
+  }
+  .hero-tape {
+    position: absolute;
+    top: -16px;
+    width: 80px; height: 28px;
+    background: rgba(255,228,92,0.7);
+    transform: rotate(-3deg);
+    z-index: 2;
+  }
+  .hero-tape.left { left: 30px; }
+  .hero-tape.right { right: 30px; transform: rotate(4deg); top: -14px; }
+
+  /* Floating annotations around hero */
+  .floating-arrow {
+    position: absolute;
+    pointer-events: none;
+  }
+  .floating-arrow.a1 { left: -40px; top: 180px; transform: rotate(-15deg); }
+  .floating-arrow.a2 { right: -30px; bottom: 40px; }
+
+  /* ─── INTRO ─── */
+  .intro {
+    padding: 100px 44px 90px;
+    max-width: 1100px; margin: 0 auto;
+    position: relative;
+  }
+  .section-tag {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: 'Caveat', cursive;
+    font-size: 20px; color: var(--accent-d); font-weight: 500;
+    margin-bottom: 14px;
+  }
+  .section-tag::before {
+    content: ''; width: 24px; height: 1.5px; background: var(--accent-d);
+  }
+  .intro h2 {
+    font-size: clamp(26px, 3vw, 38px);
+    font-weight: 800;
+    line-height: 1.4;
+    letter-spacing: -0.03em;
+    margin-bottom: 56px;
+  }
+  .intro h2 .accent {
+    background: linear-gradient(transparent 65%, var(--highlight) 65%);
+    padding: 0 4px;
+  }
+  .intro-body {
+    max-width: 760px;
+  }
+  .intro-body p {
+    font-size: 17px;
+    line-height: 1.95;
+    color: var(--ink-2);
+    margin-bottom: 22px;
+  }
+  .intro-pull {
+    margin: 50px 0 30px;
+    padding: 32px 36px;
+    background: var(--paper);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 12px 12px 0;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+    position: relative;
+  }
+  .intro-pull::before {
+    content: '✏️';
+    position: absolute;
+    top: -16px; left: 24px;
+    font-size: 24px;
+    background: var(--paper);
+    padding: 0 6px;
+  }
+  .intro-pull p {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0;
+    line-height: 1.7;
+  }
+
+  /* ─── CURRICULUM ─── */
+  .curriculum {
+    padding: 100px 44px;
+    background: var(--paper);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .curriculum-inner { max-width: 1100px; margin: 0 auto; }
+  .curr-head { text-align: center; margin-bottom: 60px; }
+  .curr-head .section-tag { justify-content: center; display: inline-flex; }
+  .curr-head h2 {
+    font-size: clamp(28px, 3.2vw, 40px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.35;
+    margin-bottom: 16px;
+  }
+  .curr-head p {
+    font-size: 15px; color: var(--ink-3);
+  }
+  .curr-total {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-top: 24px;
+    padding: 10px 22px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 999px;
+    font-size: 14px; font-weight: 600;
+  }
+  .curr-total .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+
+  .modules { display: flex; flex-direction: column; gap: 18px; margin-top: 60px; }
+
+  .module {
+    display: grid;
+    grid-template-columns: 100px 1fr 130px;
+    gap: 36px;
+    align-items: flex-start;
+    padding: 32px 32px;
+    background: var(--bg);
+    border: 1.5px solid var(--line);
+    border-radius: 16px;
+    transition: all .3s ease;
+    position: relative;
+  }
+  .module:hover {
+    border-color: var(--ink);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.06);
+  }
+  .module:hover .module-time .v { color: var(--ink); }
+
+  .module .idx {
+    display: flex; flex-direction: column;
+    gap: 4px;
+  }
+  .module .idx .label {
+    font-family: 'Caveat', cursive;
+    font-size: 18px; color: var(--mute);
+    line-height: 1;
+  }
+  .module .idx .num {
+    font-size: 48px; font-weight: 800;
+    color: var(--ink); letter-spacing: -0.04em;
+    line-height: 1;
+  }
+  .module .idx .num .dot { color: var(--accent-d); }
+  .module-title {
+    font-size: 21px; font-weight: 700;
+    line-height: 1.45;
+    letter-spacing: -0.025em;
+    margin-bottom: 14px;
+  }
+  .module-title .sep { color: var(--mute); margin: 0 6px; font-weight: 500; }
+  .module-title .sub { color: var(--ink-3); font-weight: 500; font-size: 18px; }
+  .module-body { font-size: 15px; line-height: 1.9; color: var(--ink-3); }
+  .module-body p + p { margin-top: 10px; }
+  .module-time {
+    text-align: right;
+    padding-top: 8px;
+  }
+  .module-time .v {
+    font-size: 38px; font-weight: 800;
+    color: var(--accent-d); letter-spacing: -0.03em;
+    line-height: 1;
+    transition: color .3s ease;
+  }
+  .module-time .unit { font-size: 16px; color: var(--mute); margin-left: 2px; }
+  .module-time .l {
+    display: block;
+    font-family: 'Caveat', cursive;
+    font-size: 16px; color: var(--mute);
+    margin-top: 6px;
+  }
+
+  /* ─── TRIAD ─── */
+  .triad {
+    padding: 110px 44px;
+    max-width: 1240px; margin: 0 auto;
+  }
+  .triad-head { text-align: center; margin-bottom: 56px; }
+  .triad-head .section-tag { justify-content: center; display: inline-flex; }
+  .triad-head h2 {
+    font-size: clamp(28px, 3.2vw, 40px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+  .triad-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .triad-col {
+    background: var(--paper);
+    border: 1.5px solid var(--line);
+    border-radius: 18px;
+    padding: 36px 30px;
+    transition: all .3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .triad-col:hover {
+    border-color: var(--ink);
+    transform: translateY(-3px);
+  }
+  .triad-col .icon {
+    width: 48px; height: 48px;
+    margin-bottom: 20px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--ink-soft-bg);
+    border-radius: 12px;
+  }
+  .triad-col h3 {
+    font-size: 22px; font-weight: 800;
+    letter-spacing: -0.025em;
+    margin-bottom: 8px;
+  }
+  .triad-col .hand-tag {
+    font-family: 'Caveat', cursive;
+    font-size: 18px; color: var(--accent-d);
+    margin-bottom: 20px;
+  }
+  .triad-col .sep-line {
+    width: 32px; height: 2px;
+    background: var(--ink);
+    margin-bottom: 20px;
+  }
+  .triad-col ul {
+    list-style: none;
+    display: flex; flex-direction: column;
+    gap: 12px;
+  }
+  .triad-col li {
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: var(--ink-2);
+    padding-left: 22px;
+    position: relative;
+  }
+  .triad-col li::before {
+    content: '✓';
+    position: absolute; left: 0; top: 1px;
+    color: var(--accent-d);
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  /* ─── COMMON FOOTER ─── */
+  .cta-section {
+    padding: 110px 44px 60px;
+    background: var(--ink);
+    color: var(--paper);
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(93,191,184,0.08) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(255,228,92,0.05) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .cta-inner {
+    max-width: 1100px; margin: 0 auto;
+    position: relative; z-index: 2;
+  }
+
+  .cta-main {
+    text-align: center;
+    margin-bottom: 80px;
+    padding-bottom: 80px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .cta-main .mini {
+    font-family: 'Caveat', cursive;
+    font-size: 24px;
+    color: #7AD4CD;
+    margin-bottom: 16px;
+  }
+  .cta-main h2 {
+    font-size: clamp(30px, 3.8vw, 48px);
+    font-weight: 800;
+    line-height: 1.35;
+    letter-spacing: -0.03em;
+    margin-bottom: 16px;
+  }
+  .cta-main h2 .accent { color: #7AD4CD; }
+  .cta-main p {
+    font-size: 15px;
+    color: #A8A8A8;
+    margin-bottom: 40px;
+  }
+  .cta-btn {
+    display: inline-flex; align-items: center; gap: 12px;
+    padding: 20px 44px;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 999px;
+    transition: all .3s ease;
+    box-shadow: 0 10px 40px rgba(122,212,205,0.2);
+  }
+  .cta-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 50px rgba(122,212,205,0.3);
+  }
+  .cta-btn .arrow { transition: transform .3s ease; }
+  .cta-btn:hover .arrow { transform: translateX(6px); }
+
+  .other-classes h3 {
+    text-align: center;
+    font-size: 13px;
+    color: #888;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .other-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .other-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 28px;
+    text-decoration: none;
+    color: var(--paper);
+    transition: all .3s ease;
+    display: flex; align-items: center; gap: 20px;
+  }
+  .other-card:hover {
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(122,212,205,0.4);
+    transform: translateY(-2px);
+  }
+  .other-card .num {
+    font-size: 28px; font-weight: 800;
+    color: #7AD4CD;
+    letter-spacing: -0.02em;
+    min-width: 50px;
+  }
+  .other-card .info { flex: 1; }
+  .other-card .info .lbl {
+    font-size: 11px; color: #888;
+    letter-spacing: 0.12em; font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .other-card .info .tt {
+    font-size: 17px; font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .other-card .info .desc {
+    font-size: 13px; color: #A8A8A8;
+    line-height: 1.5;
+  }
+  .other-card .arrow {
+    color: #888;
+    transition: all .3s ease;
+  }
+  .other-card:hover .arrow { color: #7AD4CD; transform: translateX(4px); }
+
+  .footer-bottom {
+    margin-top: 60px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 16px;
+    font-size: 13px;
+    color: #888;
+  }
+  .footer-bottom b { color: var(--paper); font-weight: 700; }
+
+  /* ─── Reveal animation ─── */
+  .reveal {
+    opacity: 0; transform: translateY(20px);
+    transition: opacity .85s cubic-bezier(.16,.84,.4,1), transform .85s cubic-bezier(.16,.84,.4,1);
+  }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* ─── Responsive ─── */
+  @media (max-width: 880px) {
+    body { background-size: 24px 24px; }
+    nav.topbar { padding: 16px 22px; }
+    nav .crumb, nav .lecturer { font-size: 12px; }
+    .hero { padding: 110px 22px 60px; }
+    .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+    .hero h1 .hand-note { display: none; }
+    .hero-meta { gap: 24px; flex-wrap: wrap; }
+    .intro { padding: 80px 22px; }
+    .intro-pull { padding: 24px 26px; }
+    .curriculum { padding: 80px 22px; }
+    .module {
+      grid-template-columns: 70px 1fr;
+      grid-template-rows: auto auto auto;
+      gap: 14px 18px;
+      padding: 24px 22px;
+    }
+    .module .idx { grid-row: 1; grid-column: 1; }
+    .module .idx .num { font-size: 36px; }
+    .module-content { grid-row: 1 / 3; grid-column: 2; }
+    .module-time {
+      grid-column: 1 / -1;
+      text-align: left;
+      padding-top: 0;
+      display: flex; align-items: baseline; gap: 10px;
+    }
+    .module-time .v { font-size: 28px; }
+    .module-time .l { margin-top: 0; }
+    .triad { padding: 80px 22px; }
+    .triad-grid { grid-template-columns: 1fr; gap: 16px; }
+    .cta-section { padding: 80px 22px 40px; }
+    .cta-main { margin-bottom: 60px; padding-bottom: 60px; }
+    .other-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="topbar" id="topbar">
+  <div class="crumb">강의 소개 · <b>Class 01</b></div>
+  <div class="lecturer">YUNA CHOI</div>
+</nav>
+
+<!-- ───────── HERO ───────── -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="reveal">
+      <div class="hero-label">
+        <span class="dot"></span>
+        Class 01 · 창의력 강연 · 워크숍
+      </div>
+      <h1>
+        <span class="highlight">창의적인 아이디어</span><br>
+        능력을 키우는<br>
+        창의력 교육 프로그램
+      </h1>
+      <p class="hero-sub">
+        아이디어 발상에 도움이 되는 창의력을 기르는 교육 프로그램입니다.
+        직접 체험하고 창조해 나가는 과정을 통해 사고의 전환과 생각의 확장을 경험합니다.
+      </p>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="v">4<span class="unit">시간</span></span>
+          <span class="l">총 진행 시간</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="v">4<span class="unit">모듈</span></span>
+          <span class="l">단계별 커리큘럼</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="v">실습형</span>
+          <span class="l">활동 중심 수업</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-illust reveal" style="transition-delay:.12s;" aria-hidden="true">
+      <div class="hero-tape left"></div>
+      <div class="hero-tape right"></div>
+      <svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+          <!-- Bulb body -->
+          <path d="M240 50 C 175 50, 130 95, 130 155 C 130 190, 150 220, 170 245 C 180 260, 184 275, 184 290 L 296 290 C 296 275, 300 260, 310 245 C 330 220, 350 190, 350 155 C 350 95, 305 50, 240 50 Z" />
+          <!-- Filament -->
+          <path d="M195 175 Q 220 145 240 175 T 285 175" />
+          <path d="M205 200 Q 220 188 240 200 Q 260 212 275 200" />
+          <!-- Base -->
+          <line x1="184" y1="305" x2="296" y2="305" />
+          <line x1="190" y1="318" x2="290" y2="318" />
+          <line x1="198" y1="331" x2="282" y2="331" />
+          <path d="M210 345 Q 240 355 270 345" />
+          <!-- Rays -->
+          <line x1="75" y1="155" x2="105" y2="155" />
+          <line x1="375" y1="155" x2="405" y2="155" />
+          <line x1="105" y1="80" x2="125" y2="98" />
+          <line x1="355" y1="98" x2="375" y2="80" />
+          <line x1="240" y1="15" x2="240" y2="35" />
+        </g>
+        <!-- Highlighted scribble -->
+        <path d="M195 175 Q 220 145 240 175 T 285 175" stroke="#FFE45C" stroke-width="6" stroke-linecap="round" opacity="0.5" fill="none" />
+        <!-- Hand note -->
+        <text x="370" y="80" font-family="Caveat, cursive" font-size="22" fill="#2F8A85" transform="rotate(8 370 80)">Idea!</text>
+        <line x1="350" y1="100" x2="330" y2="130" stroke="#2F8A85" stroke-width="1.5" stroke-linecap="round" />
+        <path d="M335 125 L 330 130 L 333 124" stroke="#2F8A85" stroke-width="1.5" fill="none" />
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── INTRO ───────── -->
+<section class="intro">
+  <div class="reveal">
+    <div class="section-tag">about the class</div>
+    <h2>일상의 흐름에서 벗어나,<br>나만의 <span class="accent">창의적 사고</span>를 발견하는 시간</h2>
+  </div>
+
+  <div class="intro-body reveal" style="transition-delay:.08s;">
+    <p>일상의 반복적인 흐름에서 벗어나, 직접 체험하고 창조해 나가는 과정을 통해 업무 전략 수립에 도움이 되는 사고의 전환과 생각의 확장을 경험합니다.</p>
+    <p>또한 개인의 창작 프로세스를 스스로 구축하며, 창의적 사고의 기반을 다집니다.</p>
+
+    <div class="intro-pull">
+      <p>"강연은 프랑스 미술 교육을 바탕으로, 강사가 직접 개발한 교구를 활용한 활동 중심의 실습형 수업입니다."</p>
+    </div>
+
+    <p>참여자는 강사가 직접 개발한 교구를 활용한 활동 중심의 실습형 수업을 통해 사고의 틀을 깨고 자신만의 창의적 결과물을 만들어가는 경험을 하게 됩니다.</p>
+  </div>
+</section>
+
+<!-- ───────── CURRICULUM ───────── -->
+<section class="curriculum">
+  <div class="curriculum-inner">
+    <div class="curr-head reveal">
+      <div class="section-tag">curriculum · 4 modules</div>
+      <h2>네 단계로 짜여진 창의의 여정</h2>
+      <p>강사가 직접 개발한 커리큘럼을 바탕으로 진행됩니다</p>
+      <div class="curr-total">
+        <span class="dot"></span>
+        총 4시간 · 4개 모듈
+      </div>
+    </div>
+
+    <div class="modules">
+      <article class="module reveal">
+        <div class="idx">
+          <span class="label">module</span>
+          <span class="num">0<span class="dot">1</span></span>
+        </div>
+        <div class="module-content">
+          <div class="module-title">
+            창의력은 무엇인가요?
+            <span class="sep">_</span>
+            <span class="sub">익숙함에서 벗어나기</span>
+          </div>
+          <div class="module-body">
+            <p>우리는 일상 속에서 직관적이고 분명한 것만 좇을 뿐, 설명이 필요하거나 깊은 사유를 요구하는 것들은 종종 외면하게 됩니다.</p>
+            <p>이 시간은 그런 익숙한 시각에서 벗어나, 보이지 않던 것을 새롭게 바라보며 창의적인 시각을 회복하는 시간입니다.</p>
+          </div>
+        </div>
+        <div class="module-time">
+          <span class="v">0.5<span class="unit">H</span></span>
+          <span class="l">30 min</span>
+        </div>
+      </article>
+
+      <article class="module reveal">
+        <div class="idx">
+          <span class="label">module</span>
+          <span class="num">0<span class="dot">2</span></span>
+        </div>
+        <div class="module-content">
+          <div class="module-title">
+            생각의 전환 일으키기
+            <span class="sep">_</span>
+            <span class="sub">인식의 확장</span>
+          </div>
+          <div class="module-body">
+            <p>새로운 인식과 표현 방식을 통해 나의 사고의 흐름을 바꾸는 시간입니다.</p>
+            <p>각 단계마다 스스로의 선택을 통해 사고를 확장하고, 일상에서 무심히 지나쳤던 관점을 다시 발견하며, 생각이 전환되는 과정을 몸으로 경험합니다.</p>
+          </div>
+        </div>
+        <div class="module-time">
+          <span class="v">0.5<span class="unit">H</span></span>
+          <span class="l">30 min</span>
+        </div>
+      </article>
+
+      <article class="module reveal">
+        <div class="idx">
+          <span class="label">module</span>
+          <span class="num">0<span class="dot">3</span></span>
+        </div>
+        <div class="module-content">
+          <div class="module-title">
+            창작 경험하기
+            <span class="sep">_</span>
+            <span class="sub">창의력을 기르는 과정</span>
+          </div>
+          <div class="module-body">
+            <p>강사가 직접 개발한 창의 교구를 활용한 활동 중심 수업을 진행합니다.</p>
+            <p>정답이 없는 과정 속에서 참여자는 자유롭게 선택하고 표현하며, 시각화하는 창작의 즐거움을 경험합니다.</p>
+          </div>
+        </div>
+        <div class="module-time">
+          <span class="v">2<span class="unit">H</span></span>
+          <span class="l">120 min</span>
+        </div>
+      </article>
+
+      <article class="module reveal">
+        <div class="idx">
+          <span class="label">module</span>
+          <span class="num">0<span class="dot">4</span></span>
+        </div>
+        <div class="module-content">
+          <div class="module-title">
+            아이디어 확장과 적용
+            <span class="sep">_</span>
+            <span class="sub">공유와 회고</span>
+          </div>
+          <div class="module-body">
+            <p>창작 활동을 통해 얻은 경험과 감각을 되돌아보며, 자신이 만들어낸 표현 방식을 서로 공유합니다.</p>
+          </div>
+        </div>
+        <div class="module-time">
+          <span class="v">1<span class="unit">H</span></span>
+          <span class="l">60 min</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── TRIAD ───────── -->
+<section class="triad">
+  <div class="triad-head reveal">
+    <div class="section-tag">details</div>
+    <h2>강연을 깊이 들여다보다</h2>
+  </div>
+
+  <div class="triad-grid">
+    <div class="triad-col reveal">
+      <div class="icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <h3>학습 대상</h3>
+      <div class="hand-tag">for whom</div>
+      <div class="sep-line"></div>
+      <ul>
+        <li>새로운 아이디어가 필요한 기획·마케팅·디자인·교육·연구 분야 종사자</li>
+        <li>반복적인 업무 속에서 창의적 사고를 회복하고 싶은 직장인</li>
+        <li>조직 내 문제 해결과 혁신을 위한 발상 전환이 필요한 구성원</li>
+        <li>창의력 교육, 예술적 사고법에 관심 있는 일반 성인</li>
+        <li>창의적인 아이디어를 내고자 하는 직장인</li>
+      </ul>
+    </div>
+
+    <div class="triad-col reveal" style="transition-delay:.08s;">
+      <div class="icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+      </div>
+      <h3>학습 목표</h3>
+      <div class="hand-tag">goals</div>
+      <div class="sep-line"></div>
+      <ul>
+        <li>고정된 사고 패턴에서 벗어나 자유로운 발상과 창의적 사고 전환을 경험한다</li>
+        <li>업무 전략 수립에 도움이 되는 아이디어 발상 프로세스를 체득한다</li>
+        <li>개인의 창작 과정과 사고 구조를 시각화하고 구체화하는 능력을 기른다</li>
+        <li>다양한 관점을 수용하며 협업적 사고를 강화하고, 창의적 시너지 발휘법을 익힌다</li>
+      </ul>
+    </div>
+
+    <div class="triad-col reveal" style="transition-delay:.16s;">
+      <div class="icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <h3>학습 장점</h3>
+      <div class="hand-tag">benefits</div>
+      <div class="sep-line"></div>
+      <ul>
+        <li>예술적 접근을 통한 감각적 사고 자극과 몰입 경험</li>
+        <li>단순 이론이 아닌 실습형 프로그램으로 즉각적인 아이디어 확장 효과</li>
+        <li>일상과 업무에 적용 가능한 창의적 문제 해결력 향상</li>
+        <li>단순한 강의가 아닌, 체험 기반의 창조적 성장 과정 제공</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── COMMON FOOTER ───────── -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <div class="cta-main reveal">
+      <div class="mini">— Bring this class to your team —</div>
+      <h2>당신의 팀에<br><span class="accent">새로운 시야</span>를 더하다</h2>
+      <p>강연 일정과 운영 방식은 기업·기관 환경에 맞춰 유연하게 조율됩니다</p>
+      <a href="https://yunachoi.imweb.me/#doz_menu_go_inqury" class="cta-btn" target="_blank" rel="noopener">
+        강연 문의하기
+        <span class="arrow">→</span>
+      </a>
+    </div>
+
+    <div class="other-classes reveal" style="transition-delay:.1s;">
+      <h3>EXPLORE OTHER CLASSES</h3>
+      <div class="other-grid">
+        <a href="class02-humanities.html" class="other-card">
+          <div class="num">02</div>
+          <div class="info">
+            <div class="lbl">CLASS 02</div>
+            <div class="tt">인문학 강연</div>
+            <div class="desc">예술 인문학과 한국적 감성으로 조직의 마음과 사고를 깨우다</div>
+          </div>
+          <div class="arrow">→</div>
+        </a>
+        <a href="class03-drawing-therapy.html" class="other-card">
+          <div class="num">03</div>
+          <div class="info">
+            <div class="lbl">CLASS 03</div>
+            <div class="tt">드로잉 테라피</div>
+            <div class="desc">그림으로 마음을 풀어내는 시간 · 스트레스 해소와 정서 회복</div>
+          </div>
+          <div class="arrow">→</div>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>© 2026 <b>YUNA CHOI</b> · 창의력 강연 전문 강사</div>
+      <div>8년간 프랑스 미술 연구 · 창의력 · 인문학 · 드로잉 테라피</div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const topbar = document.getElementById('topbar');
+  window.addEventListener('scroll', () => {
+    topbar.classList.toggle('scrolled', window.scrollY > 20);
+  });
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); observer.unobserve(e.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
