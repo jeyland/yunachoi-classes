@@ -1,0 +1,8 @@
+{
+  "redirects": [
+    { "source": "/class01-creativity.html", "destination": "https://yunachoi.co.kr/programs/creativity/", "permanent": true },
+    { "source": "/class02-humanities.html", "destination": "https://yunachoi.co.kr/programs/humanities/", "permanent": true },
+    { "source": "/class03-drawing-therapy.html", "destination": "https://yunachoi.co.kr/programs/drawing-therapy/", "permanent": true },
+    { "source": "/:path*", "destination": "https://yunachoi.co.kr/:path*", "permanent": true }
+  ]
+}
